@@ -1,59 +1,92 @@
+
 import 'package:flutter/material.dart';
 
+
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget{
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => AppState();
-
+  State<MyApp> createState() => _MyAppState();
 }
 
-class AppState extends State<MyApp>{
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
+    return const MaterialApp(
+      title: "Tanoy Kumar",
       debugShowCheckedModeBanner: false,
-      title: 'Live Test',
-      home: MyHomeScreen(),
+      home: HomePage(),
+
     );
   }
 }
 
-class MyHomeScreen extends StatefulWidget {
-  const MyHomeScreen({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomeScreen> createState() => _MyHomeScreenState();
+  State<HomePage> createState() => _HomePage();
 }
 
+class _HomePage extends State<HomePage> {
 
-class _MyHomeScreenState extends State<MyHomeScreen> {
+  dynamic contactItems = [
+    {"Name":"Tanoy Kumar Rajbangshi","Email":"engtanoy@gmail.com","Phone Number":01914980970},
+    {"Name":"mostak Hossain","Email":"mostakossin@gmail.com","Phone Number":019370767667},
+    {"Name":"jamal Miah","Email":"tanoyk@gmail.com","Phone Number":0171467778879},
+  ];
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.cyanAccent,
-        appBar: AppBar(
-          title: Text("Live Test-8"),
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w300,
-              color: Colors.white
-          ),
-          backgroundColor: Colors.blueGrey,
-          elevation: 5,
+      appBar: AppBar(title: const Text("Contact List"),
+        centerTitle: true,
+        backgroundColor: Colors.amber,
+        elevation: 5,
+      ),
+      body: ListView.builder(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(10),
+        itemCount: contactItems.length,
+        itemBuilder: (context,index){
+          return ListTile(
+            onTap: (){
+              showTasksItemBottomSheet(index);
+            },
+            title: Text(contactItems[index]['Name']),
+          );
 
-        ),
-        body: Container(
-
-        )
+        },
+      ),
 
     );
+  }
+  void showTasksItemBottomSheet(int index){
+    showModalBottomSheet(context: context, builder: (context){
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8.0),
+              child:  Text("Contract Details",style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+            Text("Name:${contactItems[index]['Name']}"),
+            Text("Email:${contactItems[index]['Email']}"),
+            Text("Phone Number:${contactItems[index]['Phone Number']}"),
+
+
+          ],
+        ),
+      );
+    },);
+
   }
 }
